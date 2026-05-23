@@ -1,0 +1,32 @@
+name: CI Solana
+on:
+  push:
+    paths: ['solana/**']
+  pull_request:
+    paths: ['solana/**']
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    defaults: { run: { working-directory: solana } }
+    steps:
+      - uses: actions/checkout@v4
+      - uses: dtolnay/rust-toolchain@stable
+        with:
+          toolchain: 1.78.0
+          components: rustfmt, clippy
+      - name: Cache cargo
+        uses: actions/cache@v4
+        with:
+          path: |
+            ~/.cargo/registry
+            ~/.cargo/git
+            solana/target
+          key: ${{ runner.os }}-cargo-solana-${{ hashFiles('solana/**/Cargo.toml') }}
+      - name: Install Solana CLI
+        run: |
+          sh -c "$(curl -sSfL https://release.anza.xyz/v1.18.26/install)"
+          echo "$HOME/.local/share/solana/install/active_release/bin" >> $GITHUB_PATH
+      - name: Install Anchor CLI
+        run: cargo install --locked --version 0.30.1 anchor-cli
+      - run: anchor build
+      - run: cargo test --workspace

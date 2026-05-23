@@ -1,0 +1,16 @@
+name: CI EVM
+on:
+  push:
+    paths: ['evm/**']
+  pull_request:
+    paths: ['evm/**']
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    defaults: { run: { working-directory: evm } }
+    steps:
+      - uses: actions/checkout@v4
+        with: { submodules: recursive }
+      - uses: foundry-rs/foundry-toolchain@v1
+      - run: forge build
+      - run: forge test -vvv

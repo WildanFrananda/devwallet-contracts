@@ -1,0 +1,29 @@
+name: CI Cosmos
+on:
+  push:
+    paths: ['cosmos/**']
+  pull_request:
+    paths: ['cosmos/**']
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    defaults: { run: { working-directory: cosmos/contracts/dev-faucet } }
+    steps:
+      - uses: actions/checkout@v4
+      - uses: dtolnay/rust-toolchain@stable
+        with:
+          toolchain: 1.78.0
+          targets: wasm32-unknown-unknown
+          components: rustfmt, clippy
+      - name: Cache cargo
+        uses: actions/cache@v4
+        with:
+          path: |
+            ~/.cargo/registry
+            ~/.cargo/git
+            cosmos/contracts/dev-faucet/target
+          key: ${{ runner.os }}-cargo-cosmos-${{ hashFiles('cosmos/**/Cargo.toml', 'cosmos/**/Cargo.lock') }}
+      - run: cargo fmt -- --check
+      - run: cargo clippy -- -D warnings
+      - run: cargo test --locked
+      - run: cargo build --release --target wasm32-unknown-unknown --locked

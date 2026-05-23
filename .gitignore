@@ -1,0 +1,25 @@
+node_modules/
+.DS_Store
+
+# IDE
+.idea/
+.vscode/
+
+# Foundry / EVM
+evm/out/
+evm/cache/
+evm/broadcast/
+
+# Anchor / Solana
+solana/target/
+solana/.anchor/
+solana/test-ledger/
+
+# CosmWasm / Rust
+cosmos/**/target/
+cosmos/**/artifacts/
+cosmos/**/schema/
+
+# env
+.env
+.env.local
