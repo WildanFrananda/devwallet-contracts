@@ -21,7 +21,7 @@ abi-exports/{evm,solana,cosmos}/
 | Tool | Version | Install |
 |---|---|---|
 | Foundry | latest | `curl -L https://foundry.paradigm.xyz \| bash && foundryup` |
-| Rust | 1.78.0 | `curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs \| sh` |
+| Rust | 1.86+ (Solana pinned 1.89.0) | `curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs \| sh` |
 | Solana CLI | 1.18.26 | `sh -c "$(curl -sSfL https://release.anza.xyz/v1.18.26/install)"` |
 | Anchor CLI | 0.30.1 | `cargo install --locked --version 0.30.1 anchor-cli` |
 | wasm32 target | — | `rustup target add wasm32-unknown-unknown` |

@@ -5,8 +5,8 @@ Multi-chain smart contracts for DevWallet (testnet-only): EVM faucet dispenser, 
 
 ## Stack
 - EVM: Foundry (`forge`, `cast`) + Solidity ^0.8.20 + OpenZeppelin contracts
-- Solana: Anchor 0.30+ + Rust 1.78 + Solana CLI 1.18.x (program name = `dev_faucet`, lib = `dev_faucet`)
-- Cosmos: CosmWasm (`cw-template`-based contract `dev-faucet`) + Rust 1.78 + `wasm32-unknown-unknown` target
+- Solana: Anchor 1.0+ + Rust 1.89 (pinned via `solana/rust-toolchain.toml`) + Solana CLI 1.18.x (program name = `dev_faucet`, lib = `dev_faucet`)
+- Cosmos: CosmWasm (`cw-template`-based contract `dev-faucet`) + Rust 1.86+ (edition2024 stabilized) + `wasm32-unknown-unknown` target
 - TypeScript only inside `solana/` (Anchor tests / scripts). Solidity + Rust handled by their own toolchains.
 
 ## Layout
@@ -27,7 +27,7 @@ abi-exports/
 - Solana: `cargo fmt` + Anchor declare_id synced via `anchor keys sync`
 - Cosmos: `cargo fmt` + `cargo clippy -D warnings`
 - ESLint flat config only in `solana/eslint.config.mjs` (TS scripts/tests). EVM + Cosmos use native linters.
-- Toolchain pins: Foundry latest, Anchor 0.30.1, Solana CLI 1.18.26, Rust 1.78.
+- Toolchain pins: Foundry latest, Anchor 0.30.1+, Solana CLI 1.18.26, Rust 1.89 (Solana) / 1.86+ (Cosmos).
 
 ## Forbidden
 - Do not add mainnet-only code. Testnet only.
