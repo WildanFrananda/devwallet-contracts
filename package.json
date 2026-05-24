@@ -1,0 +1,26 @@
+{
+  "name": "devwallet-contracts",
+  "version": "0.1.0",
+  "description": "Multi-chain testnet contracts for DevWallet (EVM + Solana + CosmWasm)",
+  "private": true,
+  "license": "MIT",
+  "scripts": {
+    "export-abi": "./scripts/export-abi.sh",
+    "prepare": "husky"
+  },
+  "devDependencies": {
+    "@commitlint/cli": "^21.0.1",
+    "@commitlint/config-conventional": "^21.0.1",
+    "husky": "^9.1.7",
+    "lint-staged": "^17.0.5",
+    "prettier": "^3.8.3"
+  },
+  "lint-staged": {
+    "evm/**/*.sol": [
+      "bash -c 'cd evm && forge fmt'"
+    ],
+    "*.{ts,js,json,md,yml,yaml}": [
+      "prettier --write"
+    ]
+  }
+}

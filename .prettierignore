@@ -1,0 +1,15 @@
+node_modules/
+**/node_modules/
+evm/lib/
+evm/out/
+evm/cache/
+evm/broadcast/
+solana/target/
+solana/.anchor/
+solana/test-ledger/
+cosmos/**/target/
+cosmos/**/artifacts/
+cosmos/**/schema/
+abi-exports/
+*.lock
+bun.lock
