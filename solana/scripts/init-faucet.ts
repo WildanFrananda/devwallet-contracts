@@ -76,7 +76,7 @@ async function main(): Promise<void> {
   console.log("Faucet balance after fund: ", balanceAfter, "lamports")
 }
 
-main().catch(err => {
+main().catch((err) => {
   console.error(err)
   process.exit(1)
 })
