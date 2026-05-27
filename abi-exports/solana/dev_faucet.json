@@ -1,0 +1,40 @@
+{
+  "address": "2UhnWRa3Pu4BqTN7xnZG9jxkmz3cgCEC2AF2Jh5MKgCY",
+  "metadata": {
+    "name": "dev_faucet",
+    "version": "0.1.0",
+    "spec": "0.1.0",
+    "description": "DevWallet faucet program (testnet)"
+  },
+  "instructions": [
+    {
+      "name": "initialize",
+      "discriminator": [
+        175,
+        175,
+        109,
+        31,
+        13,
+        152,
+        155,
+        237
+      ],
+      "accounts": [],
+      "args": []
+    }
+  ],
+  "errors": [
+    {
+      "code": 6000,
+      "name": "CustomError",
+      "msg": "Custom error message"
+    }
+  ],
+  "constants": [
+    {
+      "name": "SEED",
+      "type": "string",
+      "value": "\"anchor\""
+    }
+  ]
+}

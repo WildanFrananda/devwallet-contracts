@@ -15,7 +15,7 @@ if command -v forge >/dev/null 2>&1; then
   (cd "$ROOT/evm" && forge build --silent)
   for sol in "$ROOT"/evm/src/*.sol; do
     name="$(basename "$sol" .sol)"
-    (cd "$ROOT/evm" && forge inspect "$name" abi) > "$OUT/evm/$name.json"
+    (cd "$ROOT/evm" && forge inspect "$name" abi --json) > "$OUT/evm/$name.json"
     echo "   wrote evm/$name.json"
   done
 else
