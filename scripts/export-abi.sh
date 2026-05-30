@@ -7,7 +7,7 @@ set -euo pipefail
 ROOT="$(cd "$(dirname "$0")/.." && pwd)"
 OUT="$ROOT/abi-exports"
 
-mkdir -p "$OUT/evm" "$OUT/solana" "$OUT/cosmos"
+mkdir -p "$OUT/evm" "$OUT/solana" "$OUT/cosmos" "$OUT/starknet"
 
 # ---------- EVM (Foundry) ----------
 if command -v forge >/dev/null 2>&1; then
@@ -52,6 +52,31 @@ if command -v cargo >/dev/null 2>&1; then
   done
 else
   echo "!! cargo not found, skipping Cosmos schema export"
+fi
+
+# ---------- Starknet (Cairo / Scarb) ----------
+# Scarb embeds the Cairo ABI inside the Sierra contract_class.json under `.abi`.
+# We extract just that array so consumers can feed it straight to starknet.js.
+if command -v scarb >/dev/null 2>&1; then
+  echo ">> Starknet: scarb build + jq abi extract"
+  (cd "$ROOT/starknet" && scarb build)
+  for cls in "$ROOT"/starknet/target/dev/*.contract_class.json; do
+    [ -f "$cls" ] || continue
+    base="$(basename "$cls" .contract_class.json)"
+    # Skip snforge test build artifacts (have .test. infix or test-mod prefix).
+    case "$base" in
+      *.test|*test_*) continue ;;
+    esac
+    # Strip the "<package>_" prefix Scarb prepends so the output name matches
+    # the Cairo module/contract name (e.g. "devwallet_faucet_FaucetDispenser" -> "FaucetDispenser").
+    name="${base#devwallet_faucet_}"
+    # Skip the Scarb scaffold leftover.
+    [ "$name" = "HelloStarknet" ] && continue
+    jq '.abi' "$cls" > "$OUT/starknet/$name.json"
+    echo "   wrote starknet/$name.json"
+  done
+else
+  echo "!! scarb not found, skipping Starknet ABI export"
 fi
 
 echo ">> done. artifacts in $OUT"

@@ -1,0 +1,257 @@
+[
+  {
+    "type": "impl",
+    "name": "FaucetDispenserImpl",
+    "interface_name": "devwallet_faucet::faucet_dispenser::IFaucetDispenser"
+  },
+  {
+    "type": "struct",
+    "name": "core::integer::u256",
+    "members": [
+      {
+        "name": "low",
+        "type": "core::integer::u128"
+      },
+      {
+        "name": "high",
+        "type": "core::integer::u128"
+      }
+    ]
+  },
+  {
+    "type": "interface",
+    "name": "devwallet_faucet::faucet_dispenser::IFaucetDispenser",
+    "items": [
+      {
+        "type": "function",
+        "name": "drip",
+        "inputs": [
+          {
+            "name": "recipient",
+            "type": "core::starknet::contract_address::ContractAddress"
+          }
+        ],
+        "outputs": [],
+        "state_mutability": "external"
+      },
+      {
+        "type": "function",
+        "name": "next_drip_at",
+        "inputs": [
+          {
+            "name": "recipient",
+            "type": "core::starknet::contract_address::ContractAddress"
+          }
+        ],
+        "outputs": [
+          {
+            "type": "core::integer::u64"
+          }
+        ],
+        "state_mutability": "view"
+      },
+      {
+        "type": "function",
+        "name": "drip_amount",
+        "inputs": [],
+        "outputs": [
+          {
+            "type": "core::integer::u256"
+          }
+        ],
+        "state_mutability": "view"
+      },
+      {
+        "type": "function",
+        "name": "cooldown",
+        "inputs": [],
+        "outputs": [
+          {
+            "type": "core::integer::u64"
+          }
+        ],
+        "state_mutability": "view"
+      },
+      {
+        "type": "function",
+        "name": "owner",
+        "inputs": [],
+        "outputs": [
+          {
+            "type": "core::starknet::contract_address::ContractAddress"
+          }
+        ],
+        "state_mutability": "view"
+      },
+      {
+        "type": "function",
+        "name": "strk_token",
+        "inputs": [],
+        "outputs": [
+          {
+            "type": "core::starknet::contract_address::ContractAddress"
+          }
+        ],
+        "state_mutability": "view"
+      },
+      {
+        "type": "function",
+        "name": "set_drip_amount",
+        "inputs": [
+          {
+            "name": "new_amount",
+            "type": "core::integer::u256"
+          }
+        ],
+        "outputs": [],
+        "state_mutability": "external"
+      },
+      {
+        "type": "function",
+        "name": "set_cooldown",
+        "inputs": [
+          {
+            "name": "new_cooldown",
+            "type": "core::integer::u64"
+          }
+        ],
+        "outputs": [],
+        "state_mutability": "external"
+      },
+      {
+        "type": "function",
+        "name": "transfer_ownership",
+        "inputs": [
+          {
+            "name": "new_owner",
+            "type": "core::starknet::contract_address::ContractAddress"
+          }
+        ],
+        "outputs": [],
+        "state_mutability": "external"
+      }
+    ]
+  },
+  {
+    "type": "constructor",
+    "name": "constructor",
+    "inputs": [
+      {
+        "name": "owner",
+        "type": "core::starknet::contract_address::ContractAddress"
+      },
+      {
+        "name": "strk_token",
+        "type": "core::starknet::contract_address::ContractAddress"
+      },
+      {
+        "name": "drip_amount",
+        "type": "core::integer::u256"
+      },
+      {
+        "name": "cooldown_seconds",
+        "type": "core::integer::u64"
+      }
+    ]
+  },
+  {
+    "type": "event",
+    "name": "devwallet_faucet::faucet_dispenser::FaucetDispenser::Dripped",
+    "kind": "struct",
+    "members": [
+      {
+        "name": "recipient",
+        "type": "core::starknet::contract_address::ContractAddress",
+        "kind": "key"
+      },
+      {
+        "name": "amount",
+        "type": "core::integer::u256",
+        "kind": "data"
+      },
+      {
+        "name": "next_available_at",
+        "type": "core::integer::u64",
+        "kind": "data"
+      }
+    ]
+  },
+  {
+    "type": "event",
+    "name": "devwallet_faucet::faucet_dispenser::FaucetDispenser::DripAmountUpdated",
+    "kind": "struct",
+    "members": [
+      {
+        "name": "old_amount",
+        "type": "core::integer::u256",
+        "kind": "data"
+      },
+      {
+        "name": "new_amount",
+        "type": "core::integer::u256",
+        "kind": "data"
+      }
+    ]
+  },
+  {
+    "type": "event",
+    "name": "devwallet_faucet::faucet_dispenser::FaucetDispenser::CooldownUpdated",
+    "kind": "struct",
+    "members": [
+      {
+        "name": "old_cooldown",
+        "type": "core::integer::u64",
+        "kind": "data"
+      },
+      {
+        "name": "new_cooldown",
+        "type": "core::integer::u64",
+        "kind": "data"
+      }
+    ]
+  },
+  {
+    "type": "event",
+    "name": "devwallet_faucet::faucet_dispenser::FaucetDispenser::OwnerTransferred",
+    "kind": "struct",
+    "members": [
+      {
+        "name": "previous_owner",
+        "type": "core::starknet::contract_address::ContractAddress",
+        "kind": "key"
+      },
+      {
+        "name": "new_owner",
+        "type": "core::starknet::contract_address::ContractAddress",
+        "kind": "key"
+      }
+    ]
+  },
+  {
+    "type": "event",
+    "name": "devwallet_faucet::faucet_dispenser::FaucetDispenser::Event",
+    "kind": "enum",
+    "variants": [
+      {
+        "name": "Dripped",
+        "type": "devwallet_faucet::faucet_dispenser::FaucetDispenser::Dripped",
+        "kind": "nested"
+      },
+      {
+        "name": "DripAmountUpdated",
+        "type": "devwallet_faucet::faucet_dispenser::FaucetDispenser::DripAmountUpdated",
+        "kind": "nested"
+      },
+      {
+        "name": "CooldownUpdated",
+        "type": "devwallet_faucet::faucet_dispenser::FaucetDispenser::CooldownUpdated",
+        "kind": "nested"
+      },
+      {
+        "name": "OwnerTransferred",
+        "type": "devwallet_faucet::faucet_dispenser::FaucetDispenser::OwnerTransferred",
+        "kind": "nested"
+      }
+    ]
+  }
+]
