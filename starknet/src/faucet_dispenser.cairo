@@ -26,13 +26,12 @@ pub trait IFaucetDispenser<TContractState> {
 #[starknet::contract]
 pub mod FaucetDispenser {
     use core::num::traits::Zero;
-    use starknet::ContractAddress;
-    use starknet::{get_block_timestamp, get_caller_address, get_contract_address};
+    use openzeppelin::token::erc20::interface::{IERC20Dispatcher, IERC20DispatcherTrait};
     use starknet::storage::{
         Map, StorageMapReadAccess, StorageMapWriteAccess, StoragePointerReadAccess,
         StoragePointerWriteAccess,
     };
-    use openzeppelin::token::erc20::interface::{IERC20Dispatcher, IERC20DispatcherTrait};
+    use starknet::{ContractAddress, get_block_timestamp, get_caller_address, get_contract_address};
 
     #[storage]
     struct Storage {

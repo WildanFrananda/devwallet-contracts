@@ -1,0 +1,57 @@
+name: CI Starknet
+on:
+  push:
+    paths: ['starknet/**']
+  pull_request:
+    paths: ['starknet/**']
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    defaults: { run: { working-directory: starknet } }
+    env:
+      SCARB_VERSION: 2.18.0
+      STARKNET_FOUNDRY_VERSION: 0.61.0
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Cache asdf shims + plugins
+        uses: actions/cache@v4
+        with:
+          path: |
+            ~/.asdf
+            starknet/target
+            starknet/.snfoundry_cache
+          key: ${{ runner.os }}-starknet-${{ env.SCARB_VERSION }}-${{ env.STARKNET_FOUNDRY_VERSION }}-${{ hashFiles('starknet/**/Scarb.lock', 'starknet/**/Scarb.toml') }}
+
+      - name: Install Scarb
+        run: |
+          curl --proto '=https' --tlsv1.2 -sSf https://docs.swmansion.com/scarb/install.sh \
+            | sh -s -- -v ${{ env.SCARB_VERSION }}
+          echo "$HOME/.local/bin" >> "$GITHUB_PATH"
+
+      - name: Install Starknet Foundry (snforge + sncast)
+        run: |
+          curl -L https://raw.githubusercontent.com/foundry-rs/starknet-foundry/master/scripts/install.sh \
+            | sh -s -- -v ${{ env.STARKNET_FOUNDRY_VERSION }}
+          echo "$HOME/.foundry/bin" >> "$GITHUB_PATH"
+
+      - name: Toolchain versions
+        run: |
+          scarb --version
+          snforge --version
+
+      - name: Format check
+        run: scarb fmt --check
+
+      - name: Build (sierra + casm)
+        run: scarb build
+
+      - name: snforge tests
+        run: snforge test
+
+      - name: Verify ABI export still works
+        working-directory: .
+        run: |
+          if ! command -v jq >/dev/null 2>&1; then sudo apt-get update && sudo apt-get install -y jq; fi
+          bash scripts/export-abi.sh
+          test -s abi-exports/starknet/FaucetDispenser.json

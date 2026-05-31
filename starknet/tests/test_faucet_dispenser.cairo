@@ -1,10 +1,12 @@
-use starknet::ContractAddress;
+use devwallet_faucet::faucet_dispenser::{
+    IFaucetDispenserDispatcher, IFaucetDispenserDispatcherTrait,
+};
+use openzeppelin::token::erc20::interface::{IERC20Dispatcher, IERC20DispatcherTrait};
 use snforge_std::{
     ContractClassTrait, DeclareResultTrait, declare, start_cheat_block_timestamp_global,
     start_cheat_caller_address_global, stop_cheat_caller_address_global,
 };
-use devwallet_faucet::faucet_dispenser::{IFaucetDispenserDispatcher, IFaucetDispenserDispatcherTrait};
-use openzeppelin::token::erc20::interface::{IERC20Dispatcher, IERC20DispatcherTrait};
+use starknet::ContractAddress;
 
 const OWNER_RAW: felt252 = 0x111;
 const RECIPIENT_RAW: felt252 = 0xBEEF;

@@ -7,8 +7,8 @@ pub trait IMockStrk<TContractState> {
 
 #[starknet::contract]
 pub mod MockStrk {
-    use starknet::ContractAddress;
     use openzeppelin::token::erc20::{ERC20Component, ERC20HooksEmptyImpl};
+    use starknet::ContractAddress;
 
     component!(path: ERC20Component, storage: erc20, event: ERC20Event);
 
@@ -30,9 +30,7 @@ pub mod MockStrk {
     }
 
     #[constructor]
-    fn constructor(
-        ref self: ContractState, recipient: ContractAddress, initial_supply: u256,
-    ) {
+    fn constructor(ref self: ContractState, recipient: ContractAddress, initial_supply: u256) {
         let name: ByteArray = "Starknet Token";
         let symbol: ByteArray = "STRK";
         self.erc20.initializer(name, symbol);
